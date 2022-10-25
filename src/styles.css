@@ -1,0 +1,32 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+ul.home-ul-root {
+  display: inline;
+}
+
+.ml-project-root-common h1 {
+  color: #FF6F00;
+  margin-left: 16px;
+}
+
+.ml-project-root-common .disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.ml-project-root-common .ml-common-section-root {
+  margin: 16px;
+  padding-bottom: 16px;
+}
+
+.ml-project-root-common .ml-common-section-root a {
+  margin: 8px;
+}
+
+.ml-common-footer-root {
+  padding: 64px;
+  text-align: center;
+}

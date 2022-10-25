@@ -1,0 +1,54 @@
+.ml-smart-webcam-root h1 {
+  color: #FF6F00;
+}
+
+.ml-smart-webcam-root video {
+  display: block;
+}
+
+.ml-smart-webcam-root section {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+.ml-smart-webcam-root .removed {
+  display: none;
+}
+
+.ml-smart-webcam-root .invisible {
+  opacity: 0.2;
+}
+
+.ml-smart-webcam-root .camView {
+  position: relative;
+  float: left;
+  width: calc(100% - 20px);
+  margin: 10px;
+  cursor: pointer;
+}
+
+.ml-smart-webcam-root .camView p {
+  position: absolute;
+  padding: 5px;
+  background-color: rgba(255, 111, 0, 0.85);
+  color: #FFF;
+  border: 1px dashed rgba(255, 255, 255, 0.7);
+  z-index: 2;
+  font-size: 12px;
+}
+
+.ml-smart-webcam-root .highlighter {
+  background: rgba(0, 255, 0, 0.25);
+  border: 1px dashed #fff;
+  z-index: 1;
+  position: absolute;
+}
+
+.ml-smart-webcam-root .object-bounding-box {
+  left: 10.2px;
+  top: 20.5px;
+  width: 70px;
+  height: 100px;
+}
+
+

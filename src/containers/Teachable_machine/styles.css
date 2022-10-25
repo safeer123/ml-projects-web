@@ -1,0 +1,39 @@
+.ml-teachable-machine-root h1 {
+    color: #FF6F00;
+    margin-left: 16px;
+}
+
+
+.ml-teachable-machine-root video {
+    clear: both;
+    display: block;
+    margin: 10px;
+    background: #000000;
+    width: 640px;
+    height: 480px;
+}
+
+.ml-teachable-machine-root button {
+    margin: 4px;
+}
+
+.ml-teachable-machine-root .removed {
+    display: none;
+}
+
+.ml-teachable-machine-root #status {
+    font-size: 150%;
+}
+
+.ml-teachable-machine-root .data-class-edit-item {
+    display: flex;
+    align-items: center;
+}
+
+.ml-teachable-machine-root .data-class-edit-item p {
+    margin: 8px;
+}
+
+.ml-teachable-machine-root .check-symbol-for-prediction {
+    font-size: 18px;
+}
