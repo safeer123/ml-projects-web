@@ -10,7 +10,7 @@ export const objective_content = (
         size or resolution. We can collect the data from the web cam against each class, and train an ANN model.
         You may change the pose labels by simply adding a custom text input. Try out the following.
         <ul>
-            <li>Step1: Enable the web camera</li>
+            <li>Step1: Enable the web camera (Provide access on prompt)</li>
             <li>Step2: Collect the data for each class (Change the labels if you wish)</li>
             <li>Step3: Create a model with input vector shape (32,). We have 16 2D vectors.</li>
             <li>Step4: Train the model and predict for new poses using the webcam input</li>
