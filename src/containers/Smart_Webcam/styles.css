@@ -1,9 +1,6 @@
-.ml-smart-webcam-root h1 {
-  color: #FF6F00;
-}
-
 .ml-smart-webcam-root video {
   display: block;
+  background-color: black;
 }
 
 .ml-smart-webcam-root section {
@@ -21,10 +18,10 @@
 
 .ml-smart-webcam-root .camView {
   position: relative;
-  float: left;
   width: calc(100% - 20px);
-  margin: 10px;
+  margin: 16px;
   cursor: pointer;
+  width: min-content;
 }
 
 .ml-smart-webcam-root .camView p {
@@ -51,4 +48,19 @@
   height: 100px;
 }
 
+.ml-smart-webcam-root .control-buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.ml-smart-webcam-root .control-buttons button {
+  margin: 8px;
+}

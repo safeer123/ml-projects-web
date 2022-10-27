@@ -2,12 +2,15 @@
 export default function ({
     title="",
     description="",
-    divider
+    children,
+    divider,
+    disabled,
 }) {
   return (
-    <div className="ml-common-section-root">
+    <div className={`ml-common-section-root ${disabled ? 'disabled': ''}`}>
         <h3>{title}</h3>
-        <p>{description}</p>
+        {description}
+        {children}
         {divider && <hr />}
     </div>
   )

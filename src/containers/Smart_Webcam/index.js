@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "antd";
 
-import * as tf from "@tensorflow/tfjs";
-import * as tfvis from "@tensorflow/tfjs-vis";
-
 import '@tensorflow/tfjs-backend-cpu';
 import '@tensorflow/tfjs-backend-webgl';
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 
+import Page from "../../components/Page";
+import Section from "../../components/Section";
+
 import "./styles.css"
+
+const PAGE_TITLE = "Multiple object detection using pre trained model - Coco SSD"
 
 // Check if webcam access is supported.
 function getUserMediaSupported() {
@@ -23,6 +25,7 @@ let children = [];
 export default function () {
 
   const [model, setModel] = useState(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   const videoRef = useRef();
   const liveViewRef = useRef();
@@ -87,16 +90,8 @@ export default function () {
   function enableWebcam(event) {
     if (!webcamSupported) return;
 
-    // Only continue if the COCO-SSD has finished loading.
-    if (!model) {
-      return;
-    }
-
     const video = videoRef.current;
     if (video) {
-      // Hide the button once clicked.
-      event.target.classList.add('removed');
-
       // getUsermedia parameters to force video but not audio.
       const constraints = {
         video: true
@@ -106,28 +101,40 @@ export default function () {
       navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
         video.srcObject = stream;
         video.addEventListener('loadeddata', predictWebcam);
+        setVideoPlaying(true);
       });
     }
   }
 
 
   return (
-    <div className="ml-smart-webcam-root">
+    <Page className="ml-smart-webcam-root">
+      <h1>{PAGE_TITLE}</h1>
 
-      <h1>Multiple object detection using pre trained model in TensorFlow.js</h1>
-      <p>Wait for the model to load before clicking the button to enable the webcam - at which point it will become visible to use.</p>
+      <Section title="Objective">
+        We can make our webcam smart, using some of the pre-trained models, enabling
+        multiple object detection on the web.
+        <ul>
+          <li>
+            Step 1. Click the button for loading Coco SSD Model. This might take a few seconds for setup.
+          </li>
+          <li>
+            Step 2. Once the model is ready enable the webcam. Provide access on prompt.
+          </li>
+        </ul>
+        <p>Hold some objects up close to your webcam to get a real-time classification!</p>
+      </Section>
 
-      <section id="demos" className={true ? "" : "invisible"}>
-
-        <p>Hold some objects up close to your webcam to get a real-time classification! When ready click "enable webcam" below and accept access to the webcam when the browser asks (check the top left of your window)</p>
-
-        <div ref={liveViewRef} id="liveView" className="camView">
-          <video ref={videoRef} id="webcam" autoPlay muted width="640" height="480"></video>
-        </div>
-
-        <Button type="primary" id="loadModelButton" disabled={Boolean(model)} onClick={loadModel}>Load Coco SSD Model</Button>
-        <Button type="primary" id="webcamButton" disabled={!webcamSupported} onClick={enableWebcam}>Enable Webcam</Button>
-      </section>
-    </div>
+      <div ref={liveViewRef} id="liveView" className="camView">
+        <video ref={videoRef} id="webcam" autoPlay muted width="640" height="480"></video>
+        {
+          !(Boolean(model) && videoPlaying) &&
+          <div className="control-buttons">
+            <Button type="primary" id="loadModelButton" disabled={Boolean(model)} onClick={loadModel}>Load Coco SSD Model</Button>
+            <Button type="primary" id="webcamButton" disabled={!webcamSupported || !Boolean(model)} onClick={enableWebcam}>Enable Webcam</Button>
+          </div>
+        }
+      </div>
+    </Page>
   );
 }
