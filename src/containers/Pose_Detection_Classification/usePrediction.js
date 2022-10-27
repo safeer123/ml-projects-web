@@ -4,7 +4,7 @@ import * as tf from "@tensorflow/tfjs";
 
 import { keypointsToVecs } from "./utils";
 
-const PREDICTION_INFO_TEXT_COLOR = "#FFF"
+const PREDICTION_INFO_TEXT_COLOR = "#9F9"
 
 export default function ({
   predict,
@@ -48,8 +48,8 @@ export default function ({
     ctx2d.font = "24px Arial";
     ctx2d.fillStyle = PREDICTION_INFO_TEXT_COLOR;
     const { width, height } = ctx2d.canvas;
-    const halfTxtWidth = 0.5 * ctx2d.measureText(txt).width;
-    ctx2d.fillText(txt, 0.5 * width - halfTxtWidth, 0.1 * height);
+    // const halfTxtWidth = 0.5 * ctx2d.measureText(txt).width;
+    ctx2d.fillText(txt, 50, 0.1 * height);
   }
 
   return {

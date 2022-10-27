@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Button, Input, Col, Row } from "antd";
+import { Button, Input } from "antd";
 
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
@@ -18,14 +18,13 @@ import Section from "../../components/Section";
 import { objective_content } from "./projectWriteups";
 import Page from "../../components/Page";
 
-
-
-
 import "./styles.css"
 
+const PAGE_TITLE = "Pose Classification"
 const CLASS_NAME_INPUT_LABEL = "Pose Label"
 const DATA_GATHER_BUTTON_LABEL = "Start Collecting Data"
 const TRAIN_DATA_COUNT_LABEL = "Collected: "
+const DOWNLOAD_FILE_NAME = "pose-classification-model"
 
 const DEFAULT_POSE_LABEL_01 = "Crescent Moon"
 const DEFAULT_POSE_LABEL_02 = "Triangle"
@@ -122,7 +121,6 @@ export default function () {
     if (!video) return;
 
     return await detector.estimatePoses(video);
-    // console.log(poses)
   }
 
   function onVideoLoaded(video) {
@@ -152,7 +150,7 @@ export default function () {
     });
     setModel(model);
 
-    tfvis.show.modelSummary({ name: "Model Summary" }, model);
+    tfvis.show.modelSummary({ name: "Model Summary", tab: "Model" }, model);
   }
 
   async function trainAndPredict() {
@@ -169,13 +167,19 @@ export default function () {
 
     let results = await model.fit(inputsAsTensor, oneHotOutputs, {
       shuffle: true, batchSize: 5, epochs: 10,
-      callbacks: { onEpochEnd: logProgress }
+      callbacks: tfvis.show.fitCallbacks(
+        { name: "Training Performance", tab: "Training" },
+        ["loss", "acc"],
+        { height: 200, callbacks: ["onEpochEnd"] }
+      )
     });
 
     outputsAsTensor.dispose();
     oneHotOutputs.dispose();
     inputsAsTensor.dispose();
+    setModelTrained(true);
     setPredict(true)
+    tfvis.visor().close()
   }
 
   function logProgress(epoch, logs) {
@@ -203,16 +207,19 @@ export default function () {
   }
 
   function launchModelViz() {
-    tfvis.show();
+    tfvis.visor().open()
+  }
+
+  async function downloadModel() {
+    await model.save(`downloads://${DOWNLOAD_FILE_NAME}`);
   }
 
 
   let dataCollectionControlClass = (modelTrained || !videoPlaying) ? 'disabled' : ''
-
   return (
     <Page className="ml-pose-classification-root">
 
-      <h1>Pose Classification</h1>
+      <h1>{PAGE_TITLE}</h1>
 
       <Section title="Objective" description={objective_content} />
 
@@ -221,12 +228,12 @@ export default function () {
           <div className="webcam-video-window-root">
             <video ref={videoRef} id="webcam" autoPlay muted></video>
             <canvas ref={canvasRef} id="overlay-canvas" />
-            <div className="webcam-video-control-overlay-root">
-              {
-                !videoPlaying &&
+            {
+              !videoPlaying &&
+              <div className="webcam-video-control-overlay-root">
                 <Button type="primary" disabled={videoPlaying} id="enableCam" onClick={enableCam}>Enable Webcam</Button>
-              }
-            </div>
+              </div>
+            }
           </div>
         }
         B={
@@ -242,20 +249,28 @@ export default function () {
                 </div>
               ))
             }
-            <div className="data-collection-footer">Total data collected: {trainingDataInputs.length}</div>
+            <div className="data-collection-footer">Total collected: {trainingDataInputs.length}</div>
           </div>
         }
       />
 
 
-      <Section title="Create the model and train" description={(
+      <Section title="Create the model and train">
         <div>
           <Button type="primary" id="createModel" onClick={createModel} disabled={Boolean(model)}>Create the model</Button>
-          <Button type="primary" id="createModel" onClick={launchModelViz} disabled={!Boolean(model)}>Launch model visualization</Button>
           <Button type="primary" onClick={trainAndPredict} id="train" disabled={!Boolean(model) || modelTrained}>Train &amp; Predict!</Button>
           <Button type="primary" onClick={reset} id="reset">Reset</Button>
         </div>
-      )} />
+        <div>
+          <Button type="primary" id="createModel" onClick={launchModelViz} disabled={!Boolean(model)}>Launch model visualization</Button>
+        </div>
+      </Section>
+
+      <Section title="Download the model">
+        <div>
+          <Button type="primary" onClick={downloadModel} disabled={!Boolean(model) || !modelTrained} id="download-model">Download</Button>
+        </div>
+      </Section>
 
     </Page>
   );

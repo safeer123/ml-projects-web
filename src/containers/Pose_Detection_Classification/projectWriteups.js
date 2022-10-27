@@ -15,5 +15,5 @@ export const objective_content = (
             <li>Step3: Create a model with input vector shape (32,). We have 16 2D vectors.</li>
             <li>Step4: Train the model and predict for new poses using the webcam input</li>
         </ul>
-        <p>Data Flow:<br/> VideoFrames &#8594; [MoveNet Model] &#8594; [Our Model] &#8594; output</p>
+        Data Flow:<br/> VideoFrames &#8594; [MoveNet Model] &#8594; [Custom Model] &#8594; output
     </>)
