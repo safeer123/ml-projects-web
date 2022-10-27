@@ -133,7 +133,7 @@ export default class CarsModel {
             epochs,
             shuffle: true,
             callbacks: tfvis.show.fitCallbacks(
-                { name: "Training Performance" },
+                { name: "Training Performance", tab: "Training" },
                 ["loss", "mse"],
                 { height: 200, callbacks: ["onEpochEnd"] }
             )
@@ -177,7 +177,7 @@ export default class CarsModel {
         }));
 
         tfvis.render.scatterplot(
-            { name: "Model Predictions vs Original Data" },
+            { name: "Model Predictions vs Original Data", tab: "Test" },
             {
                 values: [originalPoints, predictedPoints],
                 series: ["original", "predicted"]
@@ -198,7 +198,7 @@ export default class CarsModel {
         }));
 
         tfvis.render.scatterplot(
-            { name: "Horsepower v MPG" },
+            { name: "Horsepower v MPG", tab: "Data" },
             { values },
             {
                 xLabel: "Horsepower",
@@ -211,6 +211,12 @@ export default class CarsModel {
     visualize_model() {
         const { model } = this;
 
-        tfvis.show.modelSummary({ name: "Model Summary" }, model);
+        tfvis.show.modelSummary({ name: "Model Summary", tab: "Model" }, model);
+    }
+
+    async download(filename) {
+        const { model } = this;
+        if (!model) return;
+        await model.save(`downloads://${filename}`);
     }
 }

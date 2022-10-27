@@ -1,0 +1,23 @@
+.ml-basic-ann-root .data-collection-window-root {
+    margin-top: 64px;
+}
+
+.ml-basic-ann-root .data-class-edit-item {
+    display: flex;
+    align-items: center;
+    margin: 16px;
+}
+
+.ml-basic-ann-root .data-class-edit-item span {
+    font-weight: bold;
+    margin: 8px;
+}
+
+.ml-basic-ann-root button {
+    margin-right: 16px;
+}
+
+.ml-basic-ann-root .test-data {
+    font-weight: bold;
+    margin: 8px;
+}

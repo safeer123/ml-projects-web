@@ -116,7 +116,7 @@ export default class NumsModel {
         const { model, minstData } = this;
         const metrics = ['loss', 'val_loss', 'acc', 'val_acc'];
         const container = {
-            name: 'Model Training', tab: 'Model', styles: { height: '1000px' }
+            name: 'Model Training', tab: 'Training', styles: { height: '1000px' }
         };
         const fitCallbacks = tfvis.show.fitCallbacks(container, metrics);
 
@@ -191,5 +191,11 @@ export default class NumsModel {
 
     resetModel() {
         this.model = null;
+    }
+
+    async download(filename) {
+        const { model } = this;
+        if (!model) return;
+        await model.save(`downloads://${filename}`);
     }
 }
